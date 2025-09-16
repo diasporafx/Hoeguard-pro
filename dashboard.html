@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HomeGuard Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .role-client { background: #ebf8ff; color: #3182ce; }
+        .role-technician { background: #f0fff4; color: #38a169; }
+        .role-admin { background: #fef5e7; color: #d69e2e; }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            gap: 8px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+            border-radius: 10px;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: #f7fafc;
+            color: #4299e1;
+        }
+
+        /* Content */
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+            color: #4a5568;
+        }
+
+        .action-btn.secondary:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Forms */
+        .job-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Job List */
+        .job-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .job-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 1.5rem;
+            border-left: 4px solid #4299e1;
+            transition: all 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-card.pending { border-left-color: #f6ad55; }
+        .job-card.assigned { border-left-color: #4299e1; }
+        .job-card.completed { border-left-color: #48bb78; }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .job-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #666;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success { background: #48bb78; color: white; }
+        .btn-success:hover { background: #38a169; }
+
+        .btn-secondary { background: #e2e8f0; color: #4a5568; }
+        .btn-secondary:hover { background: #cbd5e0; }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .success-message {
+            background: #f0fff4;
+            color: #22543d;
+            border-left: 4px solid #48bb78;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            border-left: 4px solid #e53e3e;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .job-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .job-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🏠 HomeGuard Pro</div>
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">?</div>
+                <div>
+                    <div id="user-name">Loading...</div>
+                    <div style="font-size: 0.8rem; opacity: 0.8;" id="user-role">Loading...</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1 class="welcome-title" id="welcome-title">Welcome back!</h1>
+            <p class="welcome-subtitle" id="welcome-subtitle">Loading your dashboard...</p>
+            <span class="role-badge" id="role-badge">Loading...</span>
+        </div>
+
+        <div class="nav-tabs" id="nav-tabs">
+            <!-- Navigation will be populated by JavaScript -->
+        </div>
+
+        <div class="content" id="main-content">
+            <h2>Loading your dashboard...</h2>
+            <p>Please wait while we set up your personalized experience.</p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let authToken = null;
+        let currentTab = 'overview';
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏠 Dashboard initializing...');
+            initializeDashboard();
+        });
+
+        function initializeDashboard() {
+            try {
+                // Get stored user data
+                const userData = localStorage.getItem('currentUser');
+                authToken = localStorage.getItem('authToken');
+
+                if (!userData) {
+                    console.log('❌ No user data found');
+                    window.location.href = '/auth.html';
+                    return;
+                }
+
+                currentUser = JSON.parse(userData);
+                console.log('✅ User loaded:', currentUser.name, currentUser.role);
+
+                // Initialize UI
+                updateUserInterface();
+                createNavigationTabs();
+                loadDashboardContent('overview');
+
+                console.log('🎉 Dashboard ready!');
+
+            } catch (error) {
+                console.error('❌ Dashboard error:', error);
+                showMessage('Dashboard failed to load. Please try logging in again.', 'error');
+                setTimeout(() => window.location.href = '/auth.html', 3000);
+            }
+        }
+
+        function updateUserInterface() {
+            // Update header
+            const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('user-avatar').textContent = initials;
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-role').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+
+            // Update welcome section
+            const timeOfDay = new Date().getHours() < 12 ? 'morning' : 
+                             new Date().getHours() < 17 ? 'afternoon' : 'evening';
+            
+            document.getElementById('welcome-title').textContent = `Good ${timeOfDay}, ${currentUser.name.split(' ')[0]}! 👋`;
+            
+            const roleMessages = {
+                client: "Manage your service requests and track your home warranty coverage.",
+                technician: "Browse available jobs and manage your service schedule.", 
+                admin: "Monitor system performance and manage the platform."
+            };
+            
+            document.getElementById('welcome-subtitle').textContent = roleMessages[currentUser.role];
+            
+            const roleBadge = document.getElementById('role-badge');
+            roleBadge.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+            roleBadge.className = `role-badge role-${currentUser.role}`;
+        }
+
+        function createNavigationTabs() {
+            const navTabs = document.getElementById('nav-tabs');
+            let tabs = [];
+
+            if (currentUser.role === 'client') {
+                tabs = [
+                    { id: 'overview', label: '📊 Overview' },
+                    { id: 'create-request', label: '🔧 New Request' },
+                    { id: 'my-requests', label: '📋 My Requests' }
+                ];
+            } else if (currentUser.role === 'technician') {
+                tabs = [
+                    { id: 'overview', label: '📊 Overview' },
+                    { id: 'available-jobs', label: '🔍 Available Jobs' },
+                    { id: 'my-jobs', label: '🔧 My Jobs' }
+                ];
+            } else if (currentUser.role === 'admin') {
+                tabs = [
+                    { id: 'overview', label: '📊 Overview' },
+                    { id: 'all-jobs', label: '🔧 All Jobs' },
+                    { id: 'users', label: '👥 Users' }
+                ];
+            }
+
+            navTabs.innerHTML = tabs.map(tab => 
+                `<button class="nav-tab ${tab.id === 'overview' ? 'active' : ''}" onclick="switchTab('${tab.id}')">${tab.label}</button>`
+            ).join('');
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            loadDashboardContent(tabId);
+        }
+
+        function loadDashboardContent(tabId) {
+            const content = document.getElementById('main-content');
+            
+            if (currentUser.role === 'client') {
+                if (tabId === 'overview') {
+                    content.innerHTML = getClientOverview();
+                } else if (tabId === 'create-request') {
+                    content.innerHTML = getServiceRequestForm();
+                    initializeServiceForm();
+                } else if (tabId === 'my-requests') {
+                    content.innerHTML = '<h2>📋 My Service Requests</h2><p>Loading your requests...</p>';
+                    loadClientRequests();
+                }
+            } else if (currentUser.role === 'technician') {
+                if (tabId === 'overview') {
+                    content.innerHTML = getTechnicianOverview();
+                } else if (tabId === 'available-jobs') {
+                    content.innerHTML = '<h2>🔍 Available Jobs</h2><p>Loading available jobs...</p>';
+                    loadAvailableJobs();
+                } else if (tabId === 'my-jobs') {
+                    content.innerHTML = '<h2>🔧 My Jobs</h2><p>Loading your assigned jobs...</p>';
+                    loadTechnicianJobs();
+                }
+            } else if (currentUser.role === 'admin') {
+                if (tabId === 'overview') {
+                    content.innerHTML = getAdminOverview();
+                } else if (tabId === 'all-jobs') {
+                    content.innerHTML = '<h2>🔧 All Jobs</h2><p>Loading all system jobs...</p>';
+                    loadAllJobs();
+                } else if (tabId === 'users') {
+                    content.innerHTML = '<h2>👥 System Users</h2><p>Loading user list...</p>';
+                    loadAllUsers();
+                }
+            }
+        }
+
+        // Content Templates
+        function getClientOverview() {
+            return `
+                <h2>📊 Client Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Active Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">✅</div>
+                        <div class="stat-label">Premium Plan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Avg Rating</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="switchTab('create-request')">
+                        🔧 Create Service Request
+                    </button>
+                    <button class="action-btn secondary" onclick="switchTab('my-requests')">
+                        📋 View My Requests
+                    </button>
+                </div>
+            `;
+        }
+
+        function getTechnicianOverview() {
+            return `
+                <h2>📊 Technician Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Available Jobs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$2,850</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Your Rating</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="switchTab('available-jobs')">
+                        🔍 Browse Available Jobs
+                    </button>
+                    <button class="action-btn secondary" onclick="switchTab('my-jobs')">
+                        🔧 View My Jobs
+                    </button>
+                </div>
+            `;
+        }
+
+        function getAdminOverview() {
+            return `
+                <h2>📊 Admin Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1,247</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">45</div>
+                        <div class="stat-label">Active Jobs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">$45,230</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="switchTab('all-jobs')">
+                        🔧 Manage All Jobs
+                    </button>
+                    <button class="action-btn secondary" onclick="switchTab('users')">
+                        👥 Manage Users
+                    </button>
+                </div>
+            `;
+        }
+
+        function getServiceRequestForm() {
+            return `
+                <h2>🔧 Create Service Request</h2>
+                <div class="job-form">
+                    <form id="service-form">
+                        <div class="form-group">
+                            <label for="title">Service Title</label>
+                            <input type="text" id="title" name="title" required placeholder="Brief description of the issue">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category" name="category" required>
+                                    <option value="">Select category</option>
+                                    <option value="hvac">HVAC</option>
+                                    <option value="plumbing">Plumbing</option>
+                                    <option value="electrical">Electrical</option>
+                                    <option value="appliance">Appliance</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="urgency">Urgency</label>
+                                <select id="urgency" name="urgency" required>
+                                    <option value="normal">Normal</option>
+                                    <option value="urgent">Urgent</option>
+                                    <option value="emergency">Emergency</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" required rows="4" placeholder="Describe the problem in detail..."></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" name="address" required placeholder="Service address">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="zipCode">Zip Code</label>
+                                <input type="text" id="zipCode" name="zipCode" required placeholder="12345">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="preferredDate">Preferred Date</label>
+                                <input type="date" id="preferredDate" name="preferredDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="maxBudget">Max Budget ($)</label>
+                                <input type="number" id="maxBudget" name="maxBudget" min="50" placeholder="300">
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button type="submit" class="action-btn">🚀 Submit Request</button>
+                            <button type="button" class="action-btn secondary" onclick="switchTab('overview')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function initializeServiceForm() {
+            const dateInput = document.getElementById('preferredDate');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.min = today;
+            dateInput.value = today;
+
+            document.getElementById('service-form').addEventListener('submit', submitServiceRequest);
+        }
+
+        async function submitServiceRequest(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            const jobData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                category: formData.get('category'),
+                urgency: formData.get('urgency'),
+                address: formData.get('address'),
+                zipCode: formData.get('zipCode'),
+                preferredDate: formData.get('preferredDate'),
+                maxBudget: parseFloat(formData.get('maxBudget')) || 0,
+                estimatedDuration: 120
+            };
+
+            try {
+                const response = await fetch('/api/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Service request created successfully! 🎉', 'success');
+                    switchTab('my-requests');
+                } else {
+                    showMessage('Error: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Submit error:', error);
+                showMessage('Network error. Please try again.', 'error');
+            }
+        }
+
+        // API Functions
+        async function loadClientRequests() {
+            try {
+                const response = await fetch('/api/jobs/my-requests', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                displayJobs(data.jobs || [], 'client');
+            } catch (error) {
+                console.error('Load requests error:', error);
+                showMessage('Error loading requests', 'error');
+            }
+        }
+
+        async function loadAvailableJobs() {
+            try {
+                const response = await fetch('/api/jobs?status=pending', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                displayJobs(data.jobs || [], 'available');
+            } catch (error) {
+                showMessage('Error loading jobs', 'error');
+            }
+        }
+
+        async function loadTechnicianJobs() {
+            try {
+                const response = await fetch('/api/jobs/my-jobs', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                displayJobs(data.jobs || [], 'assigned');
+            } catch (error) {
+                showMessage('Error loading jobs', 'error');
+            }
+        }
+
+        async function loadAllJobs() {
+            try {
+                const response = await fetch('/api/jobs', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                displayJobs(data.jobs || [], 'admin');
+            } catch (error) {
+                showMessage('Error loading jobs', 'error');
+            }
+        }
+
+        async function loadAllUsers() {
+            try {
+                const response = await fetch('/api/users', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await response.json();
+                displayUsers(data.users || []);
+            } catch (error) {
+                showMessage('Error loading users', 'error');
+            }
+        }
+
+        function displayJobs(jobs, context) {
+            const content = document.getElementById('main-content');
+            
+            if (!jobs || jobs.length === 0) {
+                content.innerHTML = `
+                    <h2>No jobs found</h2>
+                    <p>There are no jobs to display at this time.</p>
+                    ${context === 'client' ? '<div class="action-buttons"><button class="action-btn" onclick="switchTab(\'create-request\')">🔧 Create Your First Request</button></div>' : ''}
+                `;
+                return;
+            }
+
+            const jobCards = jobs.map(job => `
+                <div class="job-card ${job.status}">
+                    <div class="job-title">${getCategoryEmoji(job.category)} ${job.title}</div>
+                    <div class="job-description">${job.description}</div>
+                    <div class="job-meta">
+                        <span>📍 ${job.address}</span>
+                        <span>💰 $${job.maxBudget || 'N/A'}</span>
+                        <span>🚨 ${job.urgency}</span>
+                        <span>📅 ${formatDate(job.preferredDate)}</span>
+                        ${job.status !== 'pending' ? `<span>Status: ${job.status}</span>` : ''}
+                    </div>
+                    ${getJobActions(job, context)}
+                </div>
+            `).join('');
+
+            content.innerHTML = `
+                <h2>${getJobListTitle(context)} (${jobs.length})</h2>
+                <div class="job-list">${jobCards}</div>
+            `;
+        }
+
+        function displayUsers(users) {
+            const content = document.getElementById('main-content');
+            
+            if (!users || users.length === 0) {
+                content.innerHTML = '<h2>No users found</h2><p>No users to display.</p>';
+                return;
+            }
+
+            const userCards = users.map(user => `
+                <div class="job-card">
+                    <div class="job-title">${getRoleEmoji(user.role)} ${user.name}</div>
+                    <div class="job-meta">
+                        <span>📧 ${user.email}</span>
+                        <span>👤 ${user.role}</span>
+                        <span>🆔 #${user.id}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            content.innerHTML = `
+                <h2>👥 System Users (${users.length})</h2>
+                <div class="job-list">${userCards}</div>
+            `;
+        }
+
+        function getJobActions(job, context) {
+            if (context === 'available') {
+                return `
+                    <div class="job-actions">
+                        <button class="btn-small btn-success" onclick="acceptJob('${job.id}')">✅ Accept Job</button>
+                        <button class="btn-small btn-secondary" onclick="viewJob('${job.id}')">👁️ View Details</button>
+                    </div>
+                `;
+            } else if (context === 'assigned') {
+                return `
+                    <div class="job-actions">
+                        <button class="btn-small btn-success" onclick="updateJobStatus('${job.id}', 'in-progress')">🚀 Start Work</button>
+                        <button class="btn-small btn-success" onclick="updateJobStatus('${job.id}', 'completed')">✅ Complete</button>
+                        <button class="btn-small btn-secondary" onclick="viewJob('${job.id}')">👁️ Details</button>
+                    </div>
+                `;
+            } else if (context === 'client') {
+                return `
+                    <div class="job-actions">
+                        <button class="btn-small btn-secondary" onclick="viewJob('${job.id}')">👁️ View Details</button>
+                        ${job.status === 'pending' ? `<button class="btn-small btn-secondary" onclick="cancelJob('${job.id}')">❌ Cancel</button>` : ''}
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="job-actions">
+                        <button class="btn-small btn-secondary" onclick="viewJob('${job.id}')">👁️ View Details</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Job Actions
+        async function acceptJob(jobId) {
+            try {
+                const response = await fetch(`/api/jobs/${jobId}/accept`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage('Job accepted successfully! 🎉', 'success');
+                    loadAvailableJobs(); // Refresh the list
+                } else {
+                    showMessage('Error: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Accept job error:', error);
+                showMessage('Network error. Please try again.', 'error');
+            }
+        }
+
+        async function updateJobStatus(jobId, status) {
+            try {
+                const response = await fetch(`/api/jobs/${jobId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showMessage(`Job status updated to ${status}! 🎉`, 'success');
+                    if (currentUser.role === 'technician') {
+                        loadTechnicianJobs();
+                    } else {
+                        loadClientRequests();
+                    }
+                } else {
+                    showMessage('Error: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Update job error:', error);
+                showMessage('Network error. Please try again.', 'error');
+            }
+        }
+
+        function viewJob(jobId) {
+            showMessage(`Job details for #${jobId} - Full details feature coming soon!`, 'success');
+        }
+
+        function cancelJob(jobId) {
+            if (confirm('Are you sure you want to cancel this service request?')) {
+                updateJobStatus(jobId, 'cancelled');
+            }
+        }
+
+        // Utility Functions
+        function getCategoryEmoji(category) {
+            const emojis = {
+                hvac: '🌡️',
+                plumbing: '🚰',
+                electrical: '⚡',
+                appliance: '🔧',
+                other: '🏠'
+            };
+            return emojis[category] || '🔧';
+        }
+
+        function getRoleEmoji(role) {
+            const emojis = {
+                client: '🏠',
+                technician: '🔧',
+                admin: '👑'
+            };
+            return emojis[role] || '👤';
+        }
+
+        function getJobListTitle(context) {
+            const titles = {
+                client: '📋 My Service Requests',
+                available: '🔍 Available Jobs',
+                assigned: '🔧 My Assigned Jobs',
+                admin: '🔧 All System Jobs'
+            };
+            return titles[context] || 'Jobs';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const diffTime = date - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Tomorrow';
+            if (diffDays === -1) return 'Yesterday';
+            if (diffDays < -1) return `${Math.abs(diffDays)} days ago`;
+            if (diffDays > 1) return `In ${diffDays} days`;
+            
+            return date.toLocaleDateString();
+        }
+
+        function showMessage(message, type) {
+            const content = document.getElementById('main-content');
+            const messageClass = type === 'error' ? 'error-message' : 'success-message';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${messageClass}`;
+            messageDiv.textContent = message;
+            
+            content.insertBefore(messageDiv, content.firstChild);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('authToken');
+                window.location.href = '/auth.html';
+            }
+        }
+
+        // Initialize when DOM loads
+        console.log('🏠 HomeGuard Pro Dashboard loaded');
+    </script>
+</body>
+</html>
